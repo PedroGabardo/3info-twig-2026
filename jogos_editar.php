@@ -8,34 +8,47 @@ $erro = false;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    require('carregar_pdo.php');
+
     $id = (INT) $_POST['id'] ?? false;
+    $nome = $_POST['nome'] ?? false;
+    $estilo = $_POST['estilo'] ?? false;
 
-    if ($id) {
-        $nome = $_POST['nome'] ?? false;
-        $estilo = $_POST['estilo'] ?? false;
-
-        if (!$nome || !$estilo) {
+    }
+        if (!$nome || !$estilo || !$id) {
             $erro = 'Preenche o formulário direito, chinelão!';
         } else {
-            $ext = pathinfo($_FILES['capa']['full_path'], PATHINFO_EXTENSION);
-            $capa = uniqid().'.'.$ext;
 
-            move_uploaded_file($_FILES['capa']['tmp_name'], "img/{$capa}");
+        if($_FILES['capa']['error']) {
+        $dados = $pdo->prepare('SELECT capa FROM jogos WHERE id=:id');
+        $dados->execute([':id' => $id]);
+        $capa_velha = $dados->fetch(PDO::FETCH_ASSOC)['capa'];
 
-            require('carregar_pdo.php');
-            $dados = $pdo->prepare('UPDATE jogos SET nome = :nome, estilo = :estilo,  capa = :capa, WHERE id = :id');
-
-            $dados->bindParam(':nome', $nome);
-            $dados->bindParam(':estilo', $estilo);
-            $dados->bindParam(':capa', $capa);
-            $dados->bindParam(':id', $id);  
-
-            $dados->execute();
-
-            header('location:jogos.php');
-            die;
+        $capa_velha = __DIR__ . '/img/' . $capa_velha;
+        if(file_exists($capa_velha)) {
+            unlink($capa_velha);
         }
-    } 
+
+        $ext = pathinfo($_FILES['capa']['full_path'], PATHINFO_EXTENSION);
+        $capa = uniqid().'.'.$ext;
+        move_uploaded_file($_FILES['capa']['tmp_name'], "img/{$capa}");
+
+        $sql = (' UPDATE jogos SET nome = :nome, estilo = :estilo' . (isset($capa) ? ', capa = :capa' : '') . ' WHERE id = :id ');
+        
+        $dados = $pdo->prepare($sql);
+        $params = [
+            ':id' => $id,
+            ':nome' => $nome,
+            ':estilo' => $estilo,
+        ];
+
+        if (isset($capa)) $params[':capa'] = $capa;
+
+        $dados->execute($params);
+
+        header('location:jogos.php');
+        die;
+        }
 
     header('location:jogos.php');
     die;
