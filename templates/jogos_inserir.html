@@ -3,7 +3,7 @@
 {% block conteudo %}
 <h1>jogos_inserir dos guri</h1>
 
-{% if erro  %}
+{% if erro %}
 <p>{{ erro }}</p>
 {% endif %}
 
@@ -17,6 +17,8 @@
     </select>
     <br>
     capa: <input type="file" name="capa">
+    <br>
+    data de lançamento :<input type="date" name="lancamento" placeholder="insira data">
     <br>
     <input type="submit" value="gravar">
 

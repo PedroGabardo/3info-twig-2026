@@ -9,3 +9,4 @@ $todosjogos = $jogos->fetchAll(PDO::FETCH_ASSOC);
 echo $twig->render('jogos.html', [
     'jogos' => $todosjogos,
 ]);
+ 
