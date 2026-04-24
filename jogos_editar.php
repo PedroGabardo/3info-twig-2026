@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = (int) $_POST['id'] ?? false;
     $nome = $_POST['nome'] ?? false;
     $estilo = $_POST['estilo'] ?? false;
-    $lancamento = $_POST['lancamento'];
+    $lancamento = $_POST['lancamento'] ?? false;
 
     // Verifica se há nova capa
     if (!$_FILES['capa']['error']) {

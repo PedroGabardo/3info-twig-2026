@@ -11,8 +11,15 @@
 <h1>jogos dos guri</h1>
 
 <a href="jogos_inserir.php">➕ Novo Jogo</a>
+<hr>
+Hoje: {{ hoje }}
 <br>
+A próxima sexta: {{ proxsexta }}
 <br>
+daqui 20 dias será: {{ daq20 }}
+<br>
+<hr>
+<br><br>
 <table border="1" style="border: collapse; border: green;">
     <tr>
         <th>Nome</th>
@@ -27,7 +34,7 @@
         <td>{{ jogo.nome }}</td>
         <td>{{ estilos[jogo.estilo] ?? "Não encontrado" }}</td>
         <td>{{ jogo.lancamento ?? "Não encontrado"}}</td>
-        <td><img src="img/{{jogo.capa}}" width="150" height="150"></td>
+        <td><img src="img/{{ jogo.capa }}" width="150" height="150"></td>
         <td><a href="jogos_editar.php?id={{ jogo.id }}">📝</a></td>
         <td><a href="jogos_excluir.php?id={{ jogo.id }}">❌</a></td>
     </tr>

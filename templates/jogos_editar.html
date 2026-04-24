@@ -10,7 +10,7 @@
 <h4>Você está editando o jogo "{{ jogo.nome }}"</h4>
 
 <form action="jogos_editar.php" method="post" enctype="multipart/form-data">
-    nome :<input type="text" name="nome" placeholder="Insira nome">
+    nome :<input type="text" name="nome" placeholder="Insira nome" value="{{ jogo.nome }}">
     <br>
     estilo :<select name="estilo">
         <option value="acao">Ação</option>
@@ -18,9 +18,9 @@
         <option value="rpg">RPG</option>
     </select>
     <br>
-    capa: <input type="file" name="capa">
+    capa: <input type="file" name="capa" value="{{ jogo.capa }}">
     <br>
-    data de lançamento :<input type="date" name="lancamento" placeholder="insira data">
+    data de lançamento :<input type="date" name="lancamento" placeholder="insira data" value="{{ jogo.lancamento}}">
     <br>
     <input type="hidden" name="id" value="{{ jogo.id }}">
     <input type="submit" value="gravar">
